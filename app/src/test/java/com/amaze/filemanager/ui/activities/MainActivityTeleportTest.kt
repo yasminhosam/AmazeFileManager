@@ -29,6 +29,8 @@ import org.junit.Test
  * "teleport to file" feature to navigate to a file's parent folder.
  */
 class MainActivityTeleportTest {
+
+    /** Verifies a normal file path is split into its parent directory and file name. */
     @Test
     fun `splits a normal file path into parent and file name`() {
         val result = MainActivity.splitParentAndFileName("/storage/emulated/0/Documents/report.pdf")
@@ -37,6 +39,7 @@ class MainActivityTeleportTest {
         assertEquals("report.pdf", result?.fileName)
     }
 
+    /** Verifies a path with only one directory level splits correctly. */
     @Test
     fun `splits a path with a single directory level`() {
         val result = MainActivity.splitParentAndFileName("/storage/file.txt")
@@ -45,6 +48,7 @@ class MainActivityTeleportTest {
         assertEquals("file.txt", result?.fileName)
     }
 
+    /** Verifies null is returned when the path has no parent directory. */
     @Test
     fun `returns null when path has no parent directory`() {
         val result = MainActivity.splitParentAndFileName("file.txt")
@@ -52,6 +56,7 @@ class MainActivityTeleportTest {
         assertNull(result)
     }
 
+    /** Verifies file names with spaces and special characters split correctly. */
     @Test
     fun `handles file names containing spaces and special characters`() {
         val result =
