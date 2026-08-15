@@ -1070,12 +1070,41 @@ public class MainActivity extends PermissionsActivity
   }
 
   public void teleportToFile(String filePath) {
+    ParentAndFileName split = splitParentAndFileName(filePath);
+    if (split == null) {
+      goToMain(filePath);
+      return;
+    }
+    scrollToFileName = split.fileName;
+    goToMain(split.parentPath);
+  }
+
+  /**
+   * Splits a file path into its parent directory path and file name. Returns null if the path has
+   * no parent (no "/" found).
+   */
+  static ParentAndFileName splitParentAndFileName(String filePath) {
     int lastSlash = filePath.lastIndexOf("/");
+    if (lastSlash <= 0) {
+      return null;
+    }
     String parentPath = filePath.substring(0, lastSlash);
     String fileName = filePath.substring(lastSlash + 1);
+    return new ParentAndFileName(parentPath, fileName);
+  }
 
-    scrollToFileName = fileName;
-    goToMain(parentPath);
+  /**
+   * Simple holder for a file's parent path and name. Not an android.util.Pair to keep it usable in
+   * plain JUnit tests (android.* classes are stubbed out in non-Robolectric unit tests).
+   */
+  static class ParentAndFileName {
+    final String parentPath;
+    final String fileName;
+
+    ParentAndFileName(String parentPath, String fileName) {
+      this.parentPath = parentPath;
+      this.fileName = fileName;
+    }
   }
 
   @Override
