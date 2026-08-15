@@ -1069,6 +1069,15 @@ public class MainActivity extends PermissionsActivity
     }
   }
 
+  public void teleportToFile(String filePath) {
+    int lastSlash = filePath.lastIndexOf("/");
+    String parentPath = filePath.substring(0, lastSlash);
+    String fileName = filePath.substring(lastSlash + 1);
+
+    scrollToFileName = fileName;
+    goToMain(parentPath);
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater menuInflater = getMenuInflater();
@@ -2451,11 +2460,11 @@ public class MainActivity extends PermissionsActivity
   /**
    * Invoke {@link FtpServerFragment#changeFTPServerPath(String)} to change FTP server share path.
    *
+   * @param dialog
+   * @param folder selected folder
    * @see FtpServerFragment#changeFTPServerPath(String)
    * @see FolderChooserDialog
    * @see com.afollestad.materialdialogs.folderselector.FolderChooserDialog.FolderCallback
-   * @param dialog
-   * @param folder selected folder
    */
   @Override
   public void onFolderSelection(@NonNull FolderChooserDialog dialog, @NonNull File folder) {
@@ -2547,8 +2556,8 @@ public class MainActivity extends PermissionsActivity
   /**
    * Do nothing other than dismissing the folder selection dialog.
    *
-   * @see com.afollestad.materialdialogs.folderselector.FolderChooserDialog.FolderCallback
    * @param dialog
+   * @see com.afollestad.materialdialogs.folderselector.FolderChooserDialog.FolderCallback
    */
   @Override
   public void onFolderChooserDismissed(@NonNull FolderChooserDialog dialog) {
