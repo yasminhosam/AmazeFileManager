@@ -137,10 +137,9 @@ class SearchRecyclerViewAdapter :
             teleportIV.setOnClickListener {
                 val (file, _) = getItem(adapterPosition)
                 if (!file.isDirectory) {
-                    (AppConfig.getInstance().mainActivityContext as MainActivity?)
-                        ?.teleportToFile(file.path)
-                    (AppConfig.getInstance().mainActivityContext as MainActivity?)
-                        ?.appbar?.searchView?.hideSearchView()
+                    val activity = AppConfig.getInstance().mainActivityContext as MainActivity?
+                    activity?.teleportToFile(file)
+                    activity?.appbar?.searchView?.hideSearchView()
                 }
             }
         }
